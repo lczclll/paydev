@@ -1,0 +1,142 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> <span style="color:red;">*</span> 用户名</label>
+              <span>（用户名会作为默认的昵称）</span>
+              <input class="form-control" name="username" placeholder="请输入用户名" type="text">
+            </div>
+          </div>
+ 
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> <span style="color:red;">*</span> 密码</label>
+              <span>（用户密码不能少于6位）</span>
+              <input class="form-control" name="password" placeholder="请输入密码" type="password">
+            </div>
+          </div>
+ 
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> <span style="color:red;">*</span> 确认密码</label>
+              <span>（确认密码需要和密码一致）</span>
+              <input class="form-control" name="password_confirm" placeholder="请输入确认密码" type="password">
+            </div>
+          </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> <span style="color:red;">*</span> 邮箱</label>
+                    <span>（用户邮箱，用于找回密码等安全操作）</span>
+                    <input class="form-control" name="email" placeholder="请输入邮箱" type="text">
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> <span style="color:red;">*</span> 商户名</label>
+                    <span></span>
+                    <input class="form-control" name="merchant" placeholder="请输入商户名" type="text">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> <span style="color:red;">*</span> 电话</label>
+                    <span></span>
+                    <input class="form-control" name="tel" placeholder="请输入电话" type="text">
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>绑定IP</label>
+                    <span></span>
+                    <input class="form-control" name="bindip" placeholder="请输入ip" type="text">
+                </div>
+            </div>
+
+           <!-- <div class="col-md-6">
+                <div class="form-group">
+                    <label>充值费率</label>
+                    <span></span>
+                    <label class="margin-r-5"><input type="radio" checked="checked"  name="recharge_rate_type" value="1"> 单笔（元）</label>
+                    <label><input type="radio" name="recharge_rate_type"  value=""> 费率(%)</label>
+                    <input class="form-control" name="recharge_rate" placeholder="" type="text">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>代付费率</label>
+                    <span></span>
+                    <label class="margin-r-5"><input type="radio" checked="checked"  name="payment_rate_type" value="1"> 单笔（元）</label>
+                    <label><input type="radio" name="payment_rate_type"  value=""> 费率(%)</label>
+                    <input class="form-control" name="payment_rate" placeholder="" type="text">
+                </div>
+            </div>-->
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>选择员工</label>
+                    <span></span>
+                    <select name="staff_id" class="form-control">
+                        <option value="0">请选择</option>
+                        <notempty name="yglist">
+                            {volist name="yglist" id="vo"}
+                            <option value="{$vo.id}">{$vo.username}</option>
+                            {/volist}
+
+                        </notempty>
+                    </select>
+                </div>
+            </div>
+            <!--
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>收款指定账号</label>
+                    <span></span>
+                    <select name="collection_id" class="form-control">
+                        <option value="0">请选择</option>
+                        <notempty name="clectList">
+                            {volist name="clectList" id="vo"}
+                            <option value="{$vo.collection_id}">{$vo.collection_no}[{$vo.collection_name}]</option>
+                            {/volist}
+
+                        </notempty>
+                    </select>
+                </div>
+            </div>-->
+
+          <div class="col-md-6" style="display: none">
+            <div class="form-group">
+                <label>是否共享会员</label>
+                <span>（若选择共享会员自己的会员则会继承给添加的会员）</span>
+                <div>
+                    <label class="margin-r-5"><input type="radio" name="is_share_member" value="1"> 是</label>
+                    <label><input type="radio" checked="checked" name="is_share_member"  value="0"> 否</label>
+                </div>
+            </div>
+          </div>
+            
+          <div class="col-md-6" style="display: none">
+            <div class="form-group">
+                <label>头像图片</label>
+                <br/>
+                {:widget('file/index', ['name' => 'head_img_id', 'value' => 0, 'type' => 'img'])}
+            </div>
+          </div>
+            
+            
+        </div>
+      </div>
+      <div class="box-footer">
+        
+        {include file="layout/edit_btn_group"/}
+      </div>
+    </div>
+</form>

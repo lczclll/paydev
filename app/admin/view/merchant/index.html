@@ -1,0 +1,149 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="box">
+            <!--<div class="box-header">
+                <h3 class="box-title">基本信息</h3>
+            </div>-->
+            <div class="box-body" style="padding: 20px;">
+
+
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> 商户号：</label>
+                    <div class="input-group left col-md-8" style="float: left;line-height: 35px;">
+                        {$info.username}
+                    </div>
+                </div>
+                <br class="clear"/>
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> 商户名称：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <input type="text" disabled="disabled" class="form-control" value="{$info.merchant}">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> 邮箱地址：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <input type="text" disabled="disabled" class="form-control" value="{$info.email}">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> 客服电话：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <input type="text" disabled="disabled" class="form-control" value="{$info.tel}">
+                    </div>
+                </div>
+                <br class="clear"/>
+                <form id="subform" action="{:url()}" method="post" class="form_single">
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> 支付密码：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <input type="password" name="paypass" id="_password" disabled="disabled" class="form-control" value="">
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <button type="button" id="_resetpass"  class="btn ladda-button">重置密码</button>
+                    <button  style="display: none" type="submit" id="_resetsave" class="btn ladda-button  ajax-post" data-style="slide-up" target-form="form_single">
+                        <span class="ladda-label"><i class="fa fa-send"></i> 保 存</span>
+                    </button>
+
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">结算信息</h3>
+            </div>
+            <div class="box-body" style="padding: 20px;">
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> 充值费率：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <input type="text" disabled="disabled" class="form-control" value="{$info.rechargerates}">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> 代付费率：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <input type="text" disabled="disabled" class="form-control" value="{$info.payrates}">
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+    {eq name="ismerchan" value="1"}
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">开放接口 (服务地址：{:config('APISERVICEURL')})</h3>
+            </div>
+            <div class="box-body" style="padding: 20px;">
+                <div class="form-group col-md-5">
+                    <label style="float: left;line-height: 35px;"> Access_token：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <span class="form-control">{$test_access_token}</span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label style="float: left;line-height: 35px;"> KEY：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <span class="form-control">{$secrit.key}</span>
+
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label style="float: left;line-height: 35px;"> 密钥：</label>
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <span class="form-control">{$secrit.secret}</span>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-group col-md-3">
+
+                    <div class="input-group left col-md-8" style="float: left;">
+                        <a href="http://{:config('APISERVICEURL')}"  class="btn ladda-button" target="_blank">接口文档</a>
+                    </div>
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+    {/eq}
+</div>
+
+
+    <script type="text/javascript">
+        $(".modal-backdrop").remove();
+        $(document).ready(function () {
+            $("#_resetpass").click(function(){
+
+                    $("#_password").attr("disabled",false);
+                    $(this).hide();
+                    $("#_resetsave").show();
+
+
+            });
+            $("#_resetsave").click(function(){
+                var password=$("#_password").val();
+                if(password){
+//                   $("#_password").attr("disabled",true);
+                   $(this).hide();
+                   $("#_resetpass").show();
+                }
+            });
+        });
+    </script>
+

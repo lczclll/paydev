@@ -1,0 +1,212 @@
+
+<div class="box">
+    <div class="box-header "  >
+
+        <div class="row">
+            <!--<div class="col-sm-4">
+              <ob_link><a class="btn" href="{:url('add')}"><i class="fa fa-plus"></i> 充 值</a></ob_link>
+            </div>-->
+
+        </div>
+
+
+        <div class="box-body topsearchbox" >
+
+            <div class="search-form">
+                <div class="form-group col-md-4" style="width: 310px">
+                    <label style="float: left;line-height: 35px;"> 用户名：</label>
+                    <div class="input-group left" style="float: left;width: 223px">
+                        <input type="text" name="uname" class="form-control " value="{:input('uname')}"
+                               placeholder="用户名">
+                    </div>
+                </div>
+                <div class="form-group col-md-4" style="width: 310px">
+                    <label style="float: left;line-height: 35px;"> 时间：</label>
+                    <div class="input-group left" style="float: left;width: 200px">
+                        <span class="add-on input-group-addon"><i
+                                class="glyphicon glyphicon-calendar fa fa-calendar"></i></span><input type="text"
+                                                                                                      readonly
+                                                                                                      style="width: 183px"
+                                                                                                      name="setdate"
+                                                                                                      id="reservation"
+                                                                                                      class="form-control"
+                                                                                                      value="{$setdate}"/>
+                    </div>
+                </div>
+                <div class="form-group col-md-4" style="width: 355px">
+                    <label style="float: left;line-height: 35px;"> 状态：</label>
+
+                    <label class="margin-r-5" style="line-height: 35px;">
+                        <input type="radio" {empty name='state' }checked="checked" {/empty} name="state" value="0">
+                        全部</label>
+
+                    <label class="margin-r-5" style="line-height: 35px;">
+                        <input type="radio" {eq name='state' value="1" }checked="checked" {/eq} name="state" value="1">
+                        未审核</label>
+
+                    <label class="margin-r-5" style="line-height: 35px;">
+                        <input type="radio" {eq name='state' value="2" }checked="checked" {/eq} name="state" value="2">
+                        同意</label>
+
+                    <label class="margin-r-5" style="line-height: 35px;">
+                        <input type="radio" {eq name='state' value="3" }checked="checked" {/eq} name="state" value="3">
+                        已标记</label>
+
+                    <label class="margin-r-5" style="line-height: 35px;">
+                        <input type="radio" {eq name='state' value="4" }checked="checked" {/eq} name="state" value="4">
+                        驳回</label>
+                </div>
+
+                <div class="form-group col-md-4" style="width: 100px">
+                    <label style="float: left;line-height: 35px;"> </label>
+                    <ob_link><a id="search" url="{:url('index')}" class="btn"><i class="fa fa-search"></i> 查 询</a>
+                    </ob_link>
+
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#reservation').daterangepicker({
+                        timePicker: false,
+                        timePickerIncrement: 30,
+                        format: 'YYYY/MM/DD'
+                    }, function (start, end, label) {
+                        console.log(start.toISOString(), end.toISOString(), label);
+                    });
+                });
+            </script>
+
+
+        </div>
+    </div>
+
+    <div>
+
+    </div>
+    <div class="box-body table-responsive">
+        <table class="table table-bordered table-hover table-striped" style="width: 1500px">
+            <thead>
+            <tr>
+
+                <th>转款人</th>
+                <th>转款账号</th>
+                <th>转款银行</th>
+                <th>总金额(总计{$paymoney}元)</th>
+                <th>手续费(总计{$commission}元)</th>
+                <th>状态</th>
+                <th>用户</th>
+                <th>备注</th>
+                <th>审核备注</th>
+                <th>操作人</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            {notempty name='acclist'}
+            <tbody>
+            {volist name='acclist' id='vo'}
+            <tr {eq name="vo.state" value="3"} style="color: #00acd6" {/eq}>
+
+                <td>{$vo.pay_name}</td>
+                <td>{$vo.bank_no}</td>
+                <td>{$vo.pay_bank}</td>
+                <td>{:floatval($vo['realmoney'])}</td>
+                <td>{:floatval($vo['commission'])}</td>
+                <td>
+                    {eq name="vo.state" value="1"}<span class="bg-blue">未审核</span>{/eq}
+                    {eq name="vo.state" value="2"}<span class="bg-green">同意</span>{/eq}
+                    {eq name="vo.state" value="3"}<span class="bg-yellow">已标记</span>{/eq}
+                    {eq name="vo.state" value="4"}<span class="bg-red">驳回</span>{/eq}
+                </td>
+            <th>{$vo.username}</th>
+                <td>{$vo.remarks}</td>
+                <td>{$vo.auth_remarks}</td>
+            <td>{$vo.operation_uname}</td>
+                <td>{:date("Y-m-d H:i",$vo["addtime"])}</td>
+                <td class="col-md-2 text-center">
+                    {if condition="$vo.state==1 || $vo.state==3"}
+                    <a href="{:url('edit', array('id' => $vo['recharge_id']))}" class="btn _upbtn"> 更改</a>
+                    {/if}
+                    {if condition=" IS_YH!=1"}
+                    {if condition="$vo.state==1 || $vo.state==2 || $vo.state==3" }
+                    <a class="btn bg-green _upbtn" {eq name="vo.state" value="2" } disabled="true"  {else/} data-toggle="modal"
+                    data-target="#myModal" {/eq} data-id="{$vo.recharge_id}" data-val="2" >
+                    同意 </a>
+                    {/if}
+
+
+                    {if condition="$vo.state==1 || $vo.state==3" }
+                    <a class="btn bg-yellow _upbtn" {eq name="vo.state" value="2" } disabled="true"  {else/} data-toggle="modal"
+                    data-target="#myModal" {/eq} data-id="{$vo.recharge_id}" data-val="3">
+                    标记 </a>
+                    {/if}
+
+
+                    {if condition="$vo.state==1 || $vo.state==4  || $vo.state==3" }
+                    <a class="btn bg-red _upbtn" {if condition="$vo.state==2 || $vo.state==4"} disabled="true"  {else/} data-toggle="modal" data-target="#myModal" {/if}  data-id="{$vo.recharge_id}" data-val="4">
+                    驳回 </a>
+                    {/if}
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+            {else/}
+            <tbody>
+            <tr class="odd">
+                <td colspan="8" class="text-center" valign="top">{:config('empty_list_describe')}</td>
+            </tr>
+            </tbody>
+            {/notempty}
+        </table>
+    </div>
+    <div class="box-footer clearfix text-center">
+        {$acclist->render()}
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    审核备注
+                </h4>
+            </div>
+            <form action="{:url('auth')}" method="post" class="form_single">
+                <input type="hidden" name="state" id="_authid" value="0">
+                <input type="hidden" name="id" id="_conid" value="0">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <textarea class="form-control" name="remarks" rows="3" placeholder="请输入审核备注"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary bg-green ajax-post" data-style="slide-up"
+                            target-form="form_single">
+                        确定
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".modal-backdrop").remove();
+    $("._upbtn").click(function () {
+        var ids = $(this).attr("data-id");
+        var state = $(this).attr("data-val");
+        console.log(state);
+        $("#_authid").val(state);
+        $("#_conid").val(ids);
+    });
+</script>

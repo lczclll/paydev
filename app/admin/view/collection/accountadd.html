@@ -1,0 +1,78 @@
+<style>
+  .boxmssge{
+    border: 1px red solid;
+  }
+</style>
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> <span style="color:red;">*</span> 收款人</label>
+              <span> </span>
+              <input class="form-control" name="collection_name" placeholder="请输入收款人" value="{$info['collection_name']|default=''}" type="text">
+            </div>
+          </div>
+            
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> <span style="color:red;">*</span> 收款账号</label>
+              <span>（请准确的输入收款银行账号）</span>
+              <input class="form-control" id="bank_no" name="collection_no" placeholder="请输入收款账号" value="{$info['collection_no']|default=''}" type="text">
+            </div>
+          </div> 
+            
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> <span style="color:red;">*</span> 收款银行</label>
+              <span>（请准确的输入收款银行）</span>
+              <input class="form-control" id="pay_bank" name="collection_bank" placeholder="请输入入收款银行" value="{$info['collection_bank']|default=''}" type="text">
+            </div>
+          </div>
+            
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>备注</label>
+                <span> </span>
+                <textarea class="form-control" name="remarks" rows="3" placeholder="请输入链接描述">{$info['remarks']|default=''}</textarea>
+            </div>
+          </div>
+            
+
+            
+          </div>
+        </div>
+        
+      <div class="box-footer">
+
+        <input type="hidden" name="collection_id" value="{$info['collection_id']|default='0'}"/>
+
+        {include file="layout/edit_btn_group"/}
+      </div>
+
+      </div>
+
+</form>
+
+
+<script type="text/javascript" src="__STATIC__/module/admin/js/banktype.js"></script>
+<script>
+  //  var bankMssage=bank.checked({cardNo:'6228481269040908170'});
+  //  console.log(bankMssage);
+  $(function(){
+    $("#bank_no").bind('input porpertychange',function(){
+      var carnos=$(this).val();
+      var bankMssage=bank.checked({cardNo:carnos});
+      var bankName=bankMssage.message.bankName;
+      $("#pay_bank").val(bankName);
+      if(bankMssage.message=="error"){
+        $(this).addClass("boxmssge");
+      }else{
+        $(this).removeClass("boxmssge");
+      }
+//      console.log(bankMssage);
+    });
+  });
+</script>
